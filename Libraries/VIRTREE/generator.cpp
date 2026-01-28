@@ -1,7 +1,8 @@
 #include<bits/stdc++.h>
+#include "config/RandLib/RandLib.h"
 #include "config/lib.h"
 using namespace std;
-using namespace RandomGen;
+using namespace RandLib;
 using namespace File;
 
 #define int long long
@@ -9,50 +10,66 @@ using namespace File;
 NumberGen NumGen;
 StringGen StrGen;
 VectorGen VecGen;
+GraphGen GrGen;
 int test = -1;
 
 #define Rand(l, r) NumGen.Rand<long long>((l), (r))
 
 void generate_test(){
-    NumGen.setSeed(test);
+    __seed__ = test * 67;
+    NumGen.setSeed(__seed__);
+    GrGen = GraphGen(NumGen);
+
     stringstream input;
     ///////////////////////////////////////
-    int n = test <= 10 ? Rand(1, 1000) : Rand(1, 1e5);
-    int q = test <= 10 ? Rand(1, 1000) : Rand(1, 1e5);
-    if(test <= 8) n = Rand(1, 5), q = Rand(1, 5);
+    int n = test <= 10 ? Rand(3, 1000) : Rand(5e4, 1e5);
+    int q = test <= 10 ? Rand(3, 1000) : Rand(3, 1e5);
+    if(test <= 8) n = Rand(3, 10), q = Rand(1, 5);
     if(test == 20) n = q = 100000;
+    else if(test == 19) n = 100000, q = 100;
 
     input << n << " " << q << '\n';
 
-    int LIM = test <= 6 ? 5 : 1e6;
-
-    for (int i = 1; i <= n; i++) {
-        long long ai = Rand(-LIM, LIM);
-        input << ai << (i == n ? '\n' : ' ');
+    if(test == 1){
+        for(int i = 1; i < n; ++i)
+            input << i << ' ' << i + 1 << '\n';
+    }
+    else for(const auto& e: GrGen.randomTree(n)){
+        input << e.first << ' ' << e.second << '\n';
     }
 
-    while (q--) {
-        int type = Rand(1, 4);
-        int l = Rand(1, n);
-        int r = Rand(l, n);
+    int left = 5e5;
+    vector<int> perm(n);
+    iota(begin(perm), end(perm), 1);
 
-        if (type == 1) {
-            int k = Rand(1, r - l + 5);
-            input << "1 " << l << " " << r << " " << k << '\n';
+    vector<vector<int>> queries;
+
+    while(q--){
+        int min_k = 2;
+        int max_k = left - 2 * q;
+
+        int k = Rand(min_k, min(n, max_k));
+        left -= k;
+
+        for (int i = 0; i < k; ++i) {
+            int j = Rand(i, (int)perm.size() - 1);
+            swap(perm[i], perm[j]);
         }
-        else if (type == 2) {
-            long long x = Rand(-LIM, LIM);
-            input << "2 " << l << " " << r << " " << x << '\n';
-        }
-        else if (type == 3) {
-            long long x = Rand(-LIM, LIM);
-            input << "3 " << l << " " << r << " " << x << '\n';
-        }
-        else {
-            long long x = Rand(-LIM, LIM);
-            input << "4 " << l << " " << r << " " << x << '\n';
-        }
+
+        vector<int> qr;
+        for(int i = 0; i < k; ++i)
+            qr.push_back(perm[i]);
+
+        queries.push_back(qr);
     }
+
+    shuffle(begin(queries), end(queries), NumGen.rng);
+    for(const auto& vec: queries){
+        input << (vec.size()) << ' ';
+        for(int ele: vec) input << ele << ' ';
+        input << '\n';
+    }
+
     ///////////////////////////////////////
     createFile("baitap.inp", input.str());
 }
