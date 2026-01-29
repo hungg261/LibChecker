@@ -1,7 +1,8 @@
 #include<bits/stdc++.h>
+#include "config/RandLib/RandLib.h"
 #include "config/lib.h"
 using namespace std;
-using namespace RandomGen;
+using namespace RandLib;
 using namespace File;
 
 #define int long long
@@ -9,50 +10,92 @@ using namespace File;
 NumberGen NumGen;
 StringGen StrGen;
 VectorGen VecGen;
+GraphGen GrGen;
 int test = -1;
 
 #define Rand(l, r) NumGen.Rand<long long>((l), (r))
 
 void generate_test(){
-    NumGen.setSeed(test);
+    __seed__ = test * 69;
+    NumGen.setSeed(__seed__);
+    GrGen = GraphGen(NumGen);
+
     stringstream input;
     ///////////////////////////////////////
-    int n = test <= 10 ? Rand(1, 1000) : Rand(1, 1e5);
-    int q = test <= 10 ? Rand(1, 1000) : Rand(1, 1e5);
-    if(test <= 8) n = Rand(1, 5), q = Rand(1, 5);
-    if(test == 20) n = q = 100000;
+    int n = test <= 10 ? Rand(3, 1000) : Rand(1, 1e5);
+    int q = test <= 10 ? Rand(3, 1000) : Rand(9e4, 1e5);
+    if(test <= 8) n = Rand(3, 10), q = Rand(1, 10);
+    if(test >= 13) n = q = 100000;
+    if(test == 13) n = 10;
+    if(test == 14) n = 100;
 
-    input << n << " " << q << '\n';
-
-    int LIM = test <= 6 ? 5 : 1e6;
-
+    int INF = test <= 6 ? 9 : (test <= 10 ? 1e5 : 1e9);
+    input << n << ' ' << q << '\n';
     for (int i = 1; i <= n; i++) {
-        long long ai = Rand(-LIM, LIM);
+        long long ai = Rand(-INF, INF);
         input << ai << (i == n ? '\n' : ' ');
     }
 
-    while (q--) {
-        int type = Rand(1, 4);
-        int l = Rand(1, n);
-        int r = Rand(l, n);
+    int alive_edges = 0;
+    int prv = -1, prvw = -1;
 
-        if (type == 1) {
-            int k = Rand(1, r - l + 5);
-            input << "1 " << l << " " << r << " " << k << '\n';
+    while (q--) {
+        int type = Rand(0, 4);
+        if(q == 0 && type <= 1){
+            ++q;
+            continue;
+        }
+        if(prv == 2 && type == 2){
+            ++q;
+            continue;
+        }
+
+        prv = type;
+
+        if (type == 0) {
+            int u = Rand(1, n);
+            int v = Rand(1, n);
+            input << "0 " << u << " " << v << '\n';
+            alive_edges++;
+        }
+        else if (type == 1) {
+            if (alive_edges == 0){
+                ++q;
+                continue;
+            }
+            input << "1\n";
+            alive_edges--;
+
+            prvw = -1;
         }
         else if (type == 2) {
-            long long x = Rand(-LIM, LIM);
-            input << "2 " << l << " " << r << " " << x << '\n';
+            input << "2\n";
+
+            prvw = -1;
         }
         else if (type == 3) {
-            long long x = Rand(-LIM, LIM);
-            input << "3 " << l << " " << r << " " << x << '\n';
+            int u = Rand(1, n);
+            if(prv == type && u == prvw){
+                ++q;
+                continue;
+            }
+
+            input << "3 " << u << '\n';
+
+            prvw = u;
         }
         else {
-            long long x = Rand(-LIM, LIM);
-            input << "4 " << l << " " << r << " " << x << '\n';
+            int u = Rand(1, n);
+            if(prv == type && u == prvw){
+                ++q;
+                continue;
+            }
+            input << "4 " << u << '\n';
+
+            prvw = u;
         }
     }
+
     ///////////////////////////////////////
     createFile("baitap.inp", input.str());
 }
