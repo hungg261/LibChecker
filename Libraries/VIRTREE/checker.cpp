@@ -18,22 +18,33 @@ const int LOGN = 20;
 
 std::vector<int> adj[MAXN];
 int up_lca[MAXN][LOGN];
-int v_tin[MAXN], v_tout[MAXN]; // Đã đổi tên để tránh lỗi C2040
+int entry_time[MAXN], exit_time[MAXN];
 int timer_dfs;
 
 void dfs_lca(int v, int p) {
-    v_tin[v] = ++timer_dfs;
+    entry_time[v] = ++timer_dfs;
     up_lca[v][0] = p;
     for (int i = 1; i < LOGN; i++)
         up_lca[v][i] = up_lca[up_lca[v][i - 1]][i - 1];
     for (int u : adj[v]) {
         if (u != p) dfs_lca(u, v);
     }
-    v_tout[v] = timer_dfs;
+    exit_time[v] = timer_dfs;
 }
 
 bool is_ancestor(int u, int v) {
-    return v_tin[u] <= v_tin[v] && v_tout[u] >= v_tout[v];
+    return entry_time[u] <= entry_time[v] && exit_time[u] >= exit_time[v];
+}
+
+int get_lca(int u, int v) {
+    if (is_ancestor(u, v)) return u;
+    if (is_ancestor(v, u)) return v;
+    for (int i = LOGN - 1; i >= 0; i--) {
+        if (!is_ancestor(up_lca[u][i], v)) {
+            u = up_lca[u][i];
+        }
+    }
+    return up_lca[u][0];
 }
 
 struct DsuVT {
@@ -41,7 +52,7 @@ struct DsuVT {
     int components;
     DsuVT(int n) : components(0) {
         parent.resize(n + 1);
-        for(int i = 0; i <= n; i++) parent[i] = i;
+        for (int i = 0; i <= n; i++) parent[i] = i;
     }
     int find(int i) {
         return (parent[i] == i) ? i : (parent[i] = find(parent[i]));
@@ -69,19 +80,46 @@ int main(int argc, char* argv[]) {
         adj[u].push_back(v);
         adj[v].push_back(u);
     }
-    
+
     timer_dfs = 0;
     dfs_lca(1, 1);
 
     for (int t = 1; t <= q; t++) {
         int k = inf.readInt();
-        std::set<int> required_nodes;
+        std::vector<int> required_nodes(k);
         for (int i = 0; i < k; i++) {
-            required_nodes.insert(inf.readInt());
+            required_nodes[i] = inf.readInt();
         }
 
+        // Tính số nút tối thiểu của cây ảo
+        std::set<int> min_nodes_set(required_nodes.begin(), required_nodes.end());
+        if (k > 1) {
+            std::sort(required_nodes.begin(), required_nodes.end(),
+                [](int a, int b) { return entry_time[a] < entry_time[b]; });
+            for (int i = 0; i < k - 1; i++) {
+                int lca_val = get_lca(required_nodes[i], required_nodes[i + 1]);
+                min_nodes_set.insert(lca_val);
+            }
+        }
+        int min_nodes = (int)min_nodes_set.size();
+
         int d_ouf = ouf.readInt();
-        if (d_ouf < 1) quitf(_wa, "Query %d: d must be positive", t);
+        if (d_ouf < 1) {
+            quitf(_wa, "Query %d: d must be positive, found %d", t, d_ouf);
+        }
+
+        // Nếu d_ouf không tối ưu, đọc phần còn lại của output và báo WA
+        if (d_ouf != min_nodes) {
+            if (d_ouf == 1) {
+                ouf.readInt(1, n, "v");
+            } else {
+                for (int i = 0; i < d_ouf - 1; i++) {
+                    ouf.readInt(1, n, "u");
+                    ouf.readInt(1, n, "v");
+                }
+            }
+            quitf(_wa, "Query %d: d = %d, but minimum possible is %d", t, d_ouf, min_nodes);
+        }
 
         DsuVT dsu(n);
         std::set<int> nodes_in_vtree;
@@ -94,34 +132,44 @@ int main(int argc, char* argv[]) {
             for (int i = 0; i < d_ouf - 1; i++) {
                 int u = ouf.readInt(1, n, "u");
                 int v = ouf.readInt(1, n, "v");
-                
-                if (nodes_in_vtree.find(u) == nodes_in_vtree.end()) {
+
+                if (!nodes_in_vtree.count(u)) {
                     nodes_in_vtree.insert(u);
                     dsu.add_node();
                 }
-                if (nodes_in_vtree.find(v) == nodes_in_vtree.end()) {
+                if (!nodes_in_vtree.count(v)) {
                     nodes_in_vtree.insert(v);
                     dsu.add_node();
                 }
-                
-                if (!is_ancestor(u, v) && !is_ancestor(v, u))
+
+                if (!is_ancestor(u, v) && !is_ancestor(v, u)) {
                     quitf(_wa, "Query %d: Edge (%d, %d) is not a parent-child relation", t, u, v);
-                
-                if (!dsu.unite(u, v))
+                }
+
+                if (!dsu.unite(u, v)) {
                     quitf(_wa, "Query %d: Cycle detected in Virtual Tree", t);
+                }
             }
         }
 
-        if ((int)nodes_in_vtree.size() != d_ouf)
-            quitf(_wa, "Query %d: Number of distinct nodes does not match d", t);
-
-        for (int req : required_nodes) {
-            if (nodes_in_vtree.find(req) == nodes_in_vtree.end())
-                quitf(_wa, "Query %d: Required node %d is missing", t, req);
+        if ((int)nodes_in_vtree.size() != d_ouf) {
+            quitf(_wa, "Query %d: Number of distinct nodes (%d) does not match d (%d)",
+                  t, (int)nodes_in_vtree.size(), d_ouf);
         }
 
-        if (dsu.components != 1)
+        for (int req : required_nodes) {
+            if (!nodes_in_vtree.count(req)) {
+                quitf(_wa, "Query %d: Required node %d is missing", t, req);
+            }
+        }
+
+        if (dsu.components != 1) {
             quitf(_wa, "Query %d: Virtual Tree is disconnected", t);
+        }
+
+        if (nodes_in_vtree != min_nodes_set) {
+            quitf(_wa, "Query %d: Virtual Tree nodes set is not minimal", t);
+        }
     }
 
     quitf(_ok, "Correct.");

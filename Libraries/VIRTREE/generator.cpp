@@ -22,21 +22,34 @@ void generate_test(){
 
     stringstream input;
     ///////////////////////////////////////
-    int n = test <= 10 ? Rand(3, 1000) : Rand(5e4, 1e5);
-    int q = test <= 10 ? Rand(3, 1000) : Rand(3, 1e5);
+    int n = test <= 10 ? Rand(3, 1000) : Rand(5e4, 2e5);
+    int q = test <= 10 ? Rand(3, 1000) : Rand(3, 2e5);
     if(test <= 8) n = Rand(3, 10), q = Rand(1, 5);
-    if(test == 20) n = q = 100000;
-    else if(test == 19) n = 100000, q = 100;
+    if(test >= 12) n = 2e5, q = Rand(1, 1000);
+    if(test >= 15) n = 2e5, q = Rand(1, 10000);
+
+    if(test == 20) n = q = 2e5;
+    if(test == 19) n = 2e5, q = 100;
+    if(test == 18) n = 2e5, q = 5;
+    if(test == 17) n = 2e5, q = n / 2;
+    if(test == 16) n = 2e5, q = n / 2;
 
     input << n << " " << q << '\n';
 
-    if(test == 1){
+    vector<int> deg(n + 1, 0);
+    if(test == 1 || test == 15){
         for(int i = 1; i < n; ++i)
             input << i << ' ' << i + 1 << '\n';
     }
     else for(const auto& e: GrGen.randomTree(n)){
         input << e.first << ' ' << e.second << '\n';
+        ++deg[e.first];
+        ++deg[e.second];
     }
+
+    vector<int> leaves;
+    for(int i = 1; i <= n; ++i)
+        if(deg[i] == 1) leaves.push_back(i);
 
     int left = 5e5;
     vector<int> perm(n);
@@ -45,11 +58,25 @@ void generate_test(){
     vector<vector<int>> queries;
 
     while(q--){
-        int min_k = 2;
-        int max_k = left - 2 * q;
+        int k = 2;
+        if(test == 18 && q == 4){
+            k = n - 300;
+        }
+        else if(test == 16){
+            k = 2;
+            input << k << ' ';
 
-        int k = Rand(min_k, min(n, max_k));
-        left -= k;
+            int a = Rand(0, (int)leaves.size() - 2), b = Rand(a + 1, (int)leaves.size() - 1);
+            input << leaves[a] << ' ' << leaves[b] << '\n';
+            continue;
+        }
+        else{
+            int min_k = 2;
+            int max_k = left - 2 * q;
+
+            k = Rand(min_k, min(n, max_k));
+            left -= k;
+        }
 
         for (int i = 0; i < k; ++i) {
             int j = Rand(i, (int)perm.size() - 1);
