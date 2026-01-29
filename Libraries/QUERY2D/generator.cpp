@@ -22,31 +22,54 @@ void generate_test(){
 
     stringstream input;
     ///////////////////////////////////////
-    int n = test <= 10 ? Rand(3, 1000) : Rand(5, 1e5);
-    int q = test <= 10 ? Rand(3, 1000) : Rand(9e4, 1e5);
-    if(test <= 8) n = Rand(3, 10), q = Rand(5, 10);
-    if(test >= 15) n = q = 100000;
+    int n = test <= 10 ? Rand(3, 1000) : Rand(500, 1000);
+    int m = test <= 10 ? Rand(3, 1000) : Rand(500, 1000);
+    int q = test <= 10 ? Rand(3, 1000) : Rand(1, 1e5);
 
-    int LIM = test <= 3 ? 5 : (test <= 10 ? 1e3 : 1e9);
+    if (test <= 8) {
+        n = Rand(3, 5);
+        m = Rand(3, 5);
+        q = Rand(5, 10);
+    }
 
-    input << n << ' ' << q << '\n';
-    for(int i = 1; i <= n; ++i)
-        input << Rand(-LIM, LIM) << ' ';
-    input << '\n';
+    if (test >= 18) {
+        n = m = 1000;
+        q = 100000;
+    }
+    if(test == 18) n = m = 100, q = 100000;
 
-    while(q--){
-        int type = Rand(1, 4), l = Rand(1, n), r = Rand(l, n);
-        if(q == 0 && type == 1){
+    int LIM = test <= 3 ? 5 : (test <= 10 ? 1e3 : (test <= 15 ? 1e6 : 1e9));
+
+    input << n << ' ' << m << ' ' << q << '\n';
+
+    for (int i = 1; i <= n; ++i) {
+        for (int j = 1; j <= m; ++j) {
+            input << Rand(-LIM, LIM) << ' ';
+        }
+        input << '\n';
+    }
+
+    while (q--) {
+        int type = Rand(1, 2);
+
+        if (q == 0 && type == 1) {
             ++q;
             continue;
         }
 
-        input << type << ' ' << l << ' ' << r;
-        if(type == 1) input << ' ' << Rand(-LIM, LIM);
-
-        input << '\n';
+        if (type == 1) {
+            int x = Rand(1, n);
+            int y = Rand(1, m);
+            int k = Rand(-LIM, LIM);
+            input << "1 " << x << ' ' << y << ' ' << k << '\n';
+        } else {
+            int x1 = Rand(1, n);
+            int x2 = Rand(x1, n);
+            int y1 = Rand(1, m);
+            int y2 = Rand(y1, m);
+            input << "2 " << x1 << ' ' << y1 << ' ' << x2 << ' ' << y2 << '\n';
+        }
     }
-
     ///////////////////////////////////////
     createFile("baitap.inp", input.str());
 }
