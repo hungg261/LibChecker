@@ -56,16 +56,10 @@ bool inSubtree(int v, int u){ // does u contain v?
     return tin[u] <= tin[v] && tout[v] <= tout[u];
 }
 
-int test;
 void query(){
     int k; cin >> k;
     vector<int> arr(k);
     for(int& ele: arr) cin >> ele;
-
-    if(test == 8076){
-        cerr << k << '\n';
-        for(int ele: arr) cerr << ele << ' '; cerr << '\n';
-    }
 
     sort(arr.begin(), arr.end(), [](const int& a, const int& b){
          return tin[a] < tin[b];
@@ -95,8 +89,6 @@ void query(){
 
 signed main(){
     ios_base::sync_with_stdio(0); cin.tie(0);
-    freopen("16.INP","r",stdin);
-    freopen("16.OUT","w",stdout);
 
     cin >> n >> q;
     for(int i = 1; i < n; ++i){
@@ -110,9 +102,8 @@ signed main(){
     dfs(1, -1);
     compute();
 
-    for(test = 1; test <= q; ++test){
+    while(q--){
         query();
-        if(test == 8076) break;
     }
 
     return 0;
