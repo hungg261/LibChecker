@@ -1,0 +1,59 @@
+\def\ProblemCode{SEGLAZY}
+\def\ProblemTitle{Segment Tree (Lazy propagation)}
+\makeproblem{\ProblemCode}{\ProblemTitle}
+
+Cho dãy số nguyên $a_1, a_2, \dots, a_n$.
+Xử lý $q$ truy vấn thuộc một trong các dạng sau:
+
+\begin{itemize}
+    \item \boxed{1\ l\ r\ k}: Tăng mỗi phần tử trong đoạn $[l, r]$ lên $k$ đơn vị $(|k| \le 10^{9})$.
+    \item \boxed{2\ l\ r}: Tính tổng các phần tử trong đoạn $[l, r]$.
+    \item \boxed{3\ l\ r}: Tìm phần tử có giá trị nhỏ nhất trong đoạn $[l, r]$.
+    \item \boxed{4\ l\ r}: Tìm phần tử có giá trị lớn nhất trong đoạn $[l, r]$.
+\end{itemize}
+
+% ===== INPUT DESCRIPTION =====
+\inputDesc{}
+
+\begin{itemize}
+    \item Dòng đầu tiên gồm hai số nguyên dương $n, q\ (1 \le n, q \le 10^{5})$.
+    \item Dòng thứ hai gồm $n$ số nguyên $a_1, a_2, \dots, a_n\ (|a_i| \le 10^{9})$.
+    \item $q$ dòng tiếp theo, mỗi dòng chứa một truy vấn.
+\end{itemize}
+
+% ===== OUTPUT DESCRIPTION =====
+\outputDesc{}
+
+\begin{itemize}
+    \item Với mỗi truy vấn loại 2, 3 hoặc 4, in ra một dòng chứa kết quả tương ứng.
+\end{itemize}
+
+% ===== SUBTASKS =====
+% \noindent{\sffamily \textbf{Subtasks}}
+% \begin{itemize}
+%     \item \textbf{Subtask ?} ($?\%$ số điểm): Không có ràng buộc gì thêm.
+% \end{itemize}
+
+\vspace{0.5em}
+
+\ExampleBox{1}{
+5 9\\
+-3 5 -2 4 -1\\
+2 1 5\\
+3 1 5\\
+4 1 5\\
+1 2 4 3\\
+2 1 5\\
+3 2 4\\
+4 2 4\\
+1 1 5 -2\\
+2 1 3
+}{
+3\\
+-3\\
+5\\
+12\\
+1\\
+8\\
+0
+}{}

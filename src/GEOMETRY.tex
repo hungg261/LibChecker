@@ -1,0 +1,98 @@
+\def\ProblemCode{GEOMETRY}
+\def\ProblemTitle{Hình học cơ bản}
+\makeproblem{\ProblemCode}{\ProblemTitle}
+
+Cho $n$ điểm $P_1,P_2,\dots,P_n$ trên mặt phẳng tọa độ, được đánh số từ $1$ đến $n$.  
+Hãy xử lý $q$ truy vấn hình học trên các điểm này.
+
+Các truy vấn có một trong các dạng sau:
+
+\begin{itemize}
+    \item \boxed{\texttt{ADD}\ i\ j}: In ra tọa độ của $\vec{P_i} + \vec{P_j}$.
+
+    \item \boxed{\texttt{SCALE}\ i\ k}: In ra tọa độ của $k \cdot \vec{P_i}$.
+
+    \item \boxed{\texttt{EQUAL}\ i\ j}: Kiểm tra hai điểm $P_i$ và $P_j$ có trùng nhau hay không.
+
+    \item \boxed{\texttt{DOT}\ i\ j}: In ra tích vô hướng $\vec{P_i} \cdot \vec{P_j}$.
+
+    \item \boxed{\texttt{CROSS}\ i\ j}: In ra tích có hướng $\vec{P_i} \times \vec{P_j}$.
+
+    \item \boxed{\texttt{CCW}\ a\ b\ c}: Xác định hướng quay của ba điểm $P_a, P_b, P_c$.
+    
+    In ra:
+    \begin{itemize}
+        \item \boxed{\texttt{1}} nếu $P_a \rightarrow P_b \rightarrow P_c$ quay ngược chiều kim đồng hồ.
+        \item \boxed{\texttt{-1}} nếu quay theo chiều kim đồng hồ.
+        \item \boxed{\texttt{0}} nếu ba điểm thẳng hàng.
+    \end{itemize}
+
+    \item \boxed{\texttt{DIST}\ i\ j}: In ra khoảng cách giữa $P_i$ và $P_j$.
+
+    \item \boxed{\texttt{ONSEG}\ p\ a\ b}: Kiểm tra $P_p$ có nằm trên đoạn $P_aP_b$ hay không $(P_a \ne P_b)$.
+
+    \item \boxed{\texttt{DISTSEG}\ p\ a\ b}: In ra khoảng cách từ $P_p$ đến đoạn $P_aP_b$. $(P_a \ne P_b)$.
+
+    \item \boxed{\texttt{PROJECT}\ p\ a\ b}: In ra hình chiếu vuông góc của $P_p$ lên đường thẳng $P_aP_b$ $(P_a \ne P_b)$.
+
+    \item \boxed{\texttt{REFLECT}\ p\ a\ b}: In ra điểm đối xứng của $P_p$ qua đường thẳng $P_aP_b$ $(P_a \ne P_b)$.
+
+    \item \boxed{\texttt{INTERSECT}\ a\ b\ c\ d}: Kiểm tra hai đoạn $P_aP_b$ và $P_cP_d$ có cắt nhau hay không.
+    
+    Nếu chúng cắt nhau tại đúng một điểm $P$, in \texttt{YES} rồi tọa độ $P$.
+    Nếu không, in \texttt{NO}.
+    
+    \textbf{Lưu ý:} Nếu hai đoạn thẳng trùng nhau hoặc chồng lấp trên vô số điểm,
+    truy vấn này cũng được xem là \texttt{NO}.
+\end{itemize}
+
+% ===== INPUT DESCRIPTION =====
+\inputDesc{}
+
+\begin{itemize}
+    \item Dòng đầu tiên gồm hai số nguyên $n, q\ (1 \le n, q \le 10^5)$.
+    \item $n$ dòng tiếp theo, dòng thứ $i$ chứa hai số thực $x_i, y_i\ (-10^6 \le x_i,y_i \le 10^6)$ là tọa độ của điểm $i$. Phần thập phân của mỗi tọa độ có nhiều nhất $6$ chữ số.
+    \item $q$ dòng tiếp theo, mỗi dòng chứa một truy vấn theo các dạng đã mô tả ở trên.
+\end{itemize}
+
+% ===== OUTPUT DESCRIPTION =====
+\outputDesc{}
+
+\begin{itemize}
+    \item Với mỗi truy vấn, in ra kết quả tương ứng trên một dòng.
+\end{itemize}
+
+Các giá trị thực sẽ được chấp nhận nếu sai số tuyệt đối không vượt quá $10^{-6}$,
+tức là nếu đáp án đúng là $x$ và bạn in ra $y$ thì $|x-y| \le 10^{-6}$.
+
+\vspace{0.5em}
+
+\ExampleBox{1}{
+5 10\\
+0 0\\
+2 0\\
+0 2\\
+1 1\\
+3 1\\
+ADD 2 3\\
+SCALE 4 2\\
+DOT 2 3\\
+CROSS 2 3\\
+CCW 1 2 3\\
+DIST 2 3\\
+ONSEG 4 1 5\\
+DISTSEG 5 1 3\\
+PROJECT 5 1 3\\
+INTERSECT 1 5 2 3
+}{
+2 2\\
+2 2\\
+0\\
+4\\
+1\\
+2.828427124746\\
+NO\\
+3.000000000000\\
+0 1\\
+YES 1.5 0.5
+}{}

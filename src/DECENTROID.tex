@@ -1,0 +1,59 @@
+\def\ProblemCode{DECENTROID}
+\def\ProblemTitle{Centroid Decomposition}
+\makeproblem{\ProblemCode}{\ProblemTitle}
+
+Cho một cây gồm $n$ đỉnh được đánh số từ $1$ đến $n$. Hãy xây dựng cây phân rã trọng tâm (centroid decomposition) của cây đã cho.
+
+% ===== INPUT DESCRIPTION =====
+\inputDesc{}
+
+\begin{itemize}
+    \item Dòng đầu tiên gồm một số nguyên dương $n\ (1 \le n \le 2 \cdot 10^5)$.
+    \item $n-1$ dòng tiếp theo, mỗi dòng gồm hai số nguyên $u, v\ (1 \le u, v \le n)$ mô tả một cạnh của cây.
+\end{itemize}
+
+% ===== OUTPUT DESCRIPTION =====
+\outputDesc{}
+
+\begin{itemize}
+    \item In ra $n$ số nguyên $p_1, p_2, \dots, p_n$.
+    \item $p_i$ là cha của đỉnh $i$ trong cây phân rã trọng tâm.
+    \item Nếu $i$ là gốc của cây phân rã thì in $-1$.
+\end{itemize}
+
+Nếu có nhiều cây phân rã trọng tâm hợp lệ, in ra một cây bất kỳ.
+
+% ===== SUBTASKS =====
+% \noindent{\sffamily \textbf{Subtasks}}
+% \begin{itemize}
+%     \item \textbf{Subtask ?} ($?\%$ số điểm): Không có ràng buộc gì thêm.
+% \end{itemize}
+
+\vspace{0.5em}
+
+\ExampleBox{1}{
+7\\
+1 2\\
+1 3\\
+2 4\\
+2 5\\
+3 6\\
+3 7
+}{
+-1 1 1 2 2 3 3
+}{}
+
+\ExampleBox{2}{
+10\\
+1 2\\
+2 3\\
+3 4\\
+4 5\\
+3 6\\
+6 7\\
+6 8\\
+8 9\\
+8 10
+}{
+2 3 -1 3 4 8 6 3 8 8
+}{}

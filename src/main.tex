@@ -1,0 +1,182 @@
+\documentclass[11pt,a4paper]{article}
+
+% Encoding and language
+\usepackage[utf8]{inputenc}
+\usepackage[T5]{fontenc}      % for Vietnamese
+\usepackage[vietnamese,english]{babel}  % choose as needed
+
+% Margins and layout
+\usepackage[top=2cm,bottom=2cm,left=2.5cm,right=2.5cm]{geometry}
+\usepackage{parskip}          % No indent, space between paragraphs
+\usepackage{multicol}         % Optional for two-column layout
+\usepackage{lastpage}
+
+% Fonts
+\usepackage{lmodern}          % Clean scalable font
+\usepackage{microtype}        % Better typography
+\usepackage{titlesec}         % Custom section formatting
+\usepackage[normalem]{ulem} % <- strikethrough
+
+\usepackage{tikz}
+\usetikzlibrary{arrows}
+\usetikzlibrary{arrows.meta, positioning}
+\usetikzlibrary{calc}
+\usetikzlibrary{patterns}
+
+% Code and input/output formatting
+\usepackage{listings}
+\usepackage{xcolor}
+\lstset{
+    basicstyle=\ttfamily\small,
+    backgroundcolor=\color{gray!10},
+    frame=single,
+    columns=fullflexible,
+    keepspaces=true,
+    showstringspaces=false,
+    breaklines=true,
+    language=C++,
+    tabsize=4,
+}
+
+% Math
+\usepackage{amsmath, amssymb}
+\usepackage{mathtools}
+
+% Links
+\usepackage[hyperfootnotes=false]{hyperref}
+
+% Boxes and emphasis
+\usepackage{tcolorbox}
+\tcbuselibrary{listings, breakable}
+\tcbset{colback=gray!5, colframe=black!20, boxrule=0.5pt}
+
+% Title formatting
+\titleformat{\section}{\large\bfseries}{\thesection}{1em}{}
+\titleformat{\subsection}{\normalsize\bfseries}{\thesubsection}{1em}{}
+
+% Misc
+\usepackage{array}
+
+% Header/footer (optional)
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+\fancyhf{}
+\lhead{Library Checker -- Phan Thành Hưng -- Trường Phổ thông Năng khiếu, ĐHQG TP.HCM}
+\renewcommand{\headrulewidth}{0.4pt}
+\renewcommand{\footrulewidth}{0.4pt}
+
+\usepackage{xifthen}  % dùng \ifthenelse và \isempty
+
+% Macro ví dụ với số và giải thích đẹp
+\newcommand{\ExampleBox}[4]{%
+    \vspace{0.5em}
+    \begin{tcolorbox}[title=\textcolor{darkgray}{Ví dụ~#1}, breakable]
+    \ttfamily
+    \textbf{Input} \\
+    #2
+
+    \vspace{0.8em}
+    \textbf{Output} \\
+    #3
+
+    \ifthenelse{\isempty{#4}}{}{
+        \vspace{0.8em}
+        \textbf{Giải thích} \\
+        \normalfont #4
+    }
+    \end{tcolorbox}
+}
+
+% PROBLEM CREATER TEMPLATE
+\newcommand{\makeproblem}[2]{%
+  \section{#1\ - #2}%
+}
+
+\newcommand{\inputDesc}[1]{%
+  \vspace{0.8em}
+  \noindent{\sffamily \textbf{Dữ liệu vào. }}%
+  \ifthenelse{\isempty{#1}}%
+    {}%
+    {Đọc từ tệp \texttt{#1.INP}:}%
+}
+
+\newcommand{\outputDesc}[1]{%
+  \vspace{0.8em}
+  \noindent{\sffamily \textbf{Dữ liệu ra. }}%
+  \ifthenelse{\isempty{#1}}%
+    {}%
+    {Xuất ra tệp \texttt{#1.OUT}:}%
+}
+%=============================
+
+\title{LIBRARY CHECKER}
+\author{Tác giả: Phan Thành Hưng}
+
+\begin{document}
+\maketitle
+% %==========================
+
+\vfill
+\begin{center}
+    \small
+    \textit{Tài liệu gồm \ref{LastProblem} bài, có \pageref{LastPage} trang.}
+\end{center}
+\vspace{5em}
+
+%==========================
+
+\newpage
+\input{SEGTREE}
+
+\newpage
+\input{SEGLAZY}
+
+\newpage
+\input{QUERY2D}
+
+\newpage
+\input{SPARSEBIT2D}
+
+\newpage
+\input{SEGPERS}
+
+\newpage
+\input{SEGPERSLAZY}
+
+\newpage
+\input{WAVELET}
+
+\newpage
+\input{WAVELET2}
+
+\newpage
+\input{DSUROLLBACK}
+
+\newpage
+\input{VIRTREE}
+
+\newpage
+\input{DECENTROID}
+
+\newpage
+\input{DPDNC}
+
+\newpage
+\input{GEOMETRY}
+
+% TẠO BÀI TẬP MỚI:
+% \newpage
+% \input{<tên file bài>}
+
+%==========================
+
+\label{LastProblem}
+\label{LastPage}
+
+\vfill
+\begin{center}
+    \textbf{*** HẾT ***}
+\end{center}
+\vspace{3em}
+
+\end{document}

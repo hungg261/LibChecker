@@ -1,0 +1,49 @@
+\def\ProblemCode{DPOPT}
+\def\ProblemTitle{DP Optimization (D\&C / CHT)}
+\makeproblem{\ProblemCode}{\ProblemTitle}
+
+Cho dãy $n$ phần tử $a_1,a_2,\dots,a_n$. Ta định nghĩa giá trị $C(l,r)$ của đoạn con liên tiếp từ $l$ tới $r$ là bình phương tổng các phần tử trong đoạn đó, cụ thể là $C(l,r)=(a_{l} + a_{l+1} + \dots + a_r)^2$.
+
+Hãy chia dãy thành đúng $k$ đoạn con liên tiếp sao cho mỗi phần tử thuộc đúng một đoạn con và tổng giá trị tất cả các đoạn đó là nhỏ nhất.
+
+% ===== INPUT DESCRIPTION =====
+\inputDesc{}
+
+\begin{itemize}
+    \item Dòng đầu tiên gồm hai số nguyên dương $n, k\ (1 \le n \le 10^{4}, 1 \le k \le \min(100,n))$.
+    \item Dòng tiếp theo    gồm $n$ số nguyên $a_1,a_2,\dots,a_n\ (1 \le a_i \le 10^3)$.
+\end{itemize}
+
+% ===== OUTPUT DESCRIPTION =====
+\outputDesc{}
+
+\begin{itemize}
+    \item Gồm một dòng duy nhất chứa tổng giá trị của các đoạn con nhỏ nhất tìm được.
+\end{itemize}
+
+% ===== SUBTASKS =====
+% \noindent{\sffamily \textbf{Subtasks}}
+% \begin{itemize}
+%     \item \textbf{Subtask ?} ($?\%$ số điểm): Không có ràng buộc gì thêm.
+% \end{itemize}
+
+\vspace{0.5em}
+
+\ExampleBox{1}{
+5 3\\
+1 1 1 1 1
+}{
+9
+}{
+Ta có thể chia dãy như sau: $\{1,1\ |\ 1, 1\ |\ 1\}$. \\
+Tổng giá trị là $2^2+2^2+1=9$, nhỏ nhất tìm được.
+}
+
+\ExampleBox{2}{
+5 3\\
+8 9 5 9 7
+}{
+516
+}{
+Ta có thể chia dãy như sau: $\{8\ |\ 9,5\ |\ 9,7\}$. \\
+}

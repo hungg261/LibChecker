@@ -1,0 +1,56 @@
+\def\ProblemCode{QUERY2D}
+\def\ProblemTitle{2D Data Structure (Basic)}
+\makeproblem{\ProblemCode}{\ProblemTitle}
+
+Cho lưới ô vuông kích thước $n \times m$. Ô nằm tại hàng $i$, cột $j$ có giá trị là $a_{i,j}$.
+
+Xử lý $q$ truy vấn thuộc một trong các dạng sau:
+
+\begin{itemize}
+    \item \boxed{1\ x\ y\ k}: Tăng ô có tọa độ $(x,y)$ lên $k$ đơn vị $(|k| \le 10^{9})$.
+    \item \boxed{2\ x_1\ y_1\ x_2\ y_2}: Tính tổng giá trị các ô vuông trong hình chữ nhật từ $(x_1,y_1)$ tới $(x_2,y_2)$.
+\end{itemize}
+
+% ===== INPUT DESCRIPTION =====
+\inputDesc{}
+
+\begin{itemize}
+    \item Dòng đầu tiên gồm hai số nguyên dương $n, m, q\ (1 \le n, m \le 10^{3},\ 1\le q \le 10^{5})$.
+    \item Dòng thứ $i$ trong $n$ dòng tiếp theo chứa $m$ số nguyên $a_{i,1}, a_{i,2}, \dots, a_{i,n}\ (|a_{i,j}| \le 10^{9})$.
+    \item $q$ dòng tiếp theo, mỗi dòng chứa một truy vấn.
+\end{itemize}
+
+% ===== OUTPUT DESCRIPTION =====
+\outputDesc{}
+
+\begin{itemize}
+    \item Với mỗi truy vấn loại 2, in ra một dòng chứa kết quả tương ứng.
+\end{itemize}
+
+% ===== SUBTASKS =====
+% \noindent{\sffamily \textbf{Subtasks}}
+% \begin{itemize}
+%     \item \textbf{Subtask ?} ($?\%$ số điểm): Không có ràng buộc gì thêm.
+% \end{itemize}
+
+\vspace{0.5em}
+
+\ExampleBox{1}{
+4 4 7\\
+1 2 3 4\\
+5 6 7 8\\
+9 10 11 12\\
+13 14 15 16\\
+2 1 1 4 4\\
+1 2 2 5\\
+2 2 2 3 3\\
+1 4 4 -10\\
+2 3 3 4 4\\
+1 1 1 3\\
+2 1 1 2 2
+}{
+136\\
+39\\
+44\\
+22
+}{}

@@ -1,0 +1,59 @@
+\def\ProblemCode{WAVELET}
+\def\ProblemTitle{Wavelet Tree}
+\makeproblem{\ProblemCode}{\ProblemTitle}
+
+Cho dãy số nguyên $a_1, a_2, \dots, a_n$. Hãy xử lý $q$ truy vấn thuộc một trong các dạng sau:
+
+\begin{itemize}
+    \item \boxed{1\ l\ r\ k}: Phần tử lớn thứ $k$ trong đoạn $[l, r]$.
+    Nếu không tồn tại, in ra \texttt{NO}.
+    \item \boxed{2\ l\ r\ x}: Số phần tử $\le x$ trong đoạn $[l, r]$.
+    \item \boxed{3\ l\ r\ x}: Tổng các phần tử $\le x$ trong đoạn $[l, r]$.
+    \item \boxed{4\ l\ r\ x}: Số phần tử $= x$ trong đoạn $[l, r]$.
+\end{itemize}   
+
+% ===== INPUT DESCRIPTION =====
+\inputDesc{}
+
+\begin{itemize}
+    \item Dòng đầu tiên gồm hai số nguyên dương $n, q\ (1 \le n, q \le 10^{5})$.
+    \item Dòng thứ hai gồm $n$ số nguyên $a_1, a_2, \dots, a_n\ (|a_i| \le 10^{6})$.
+    \item $q$ dòng tiếp theo, mỗi dòng chứa một truy vấn.
+\end{itemize}
+
+% ===== OUTPUT DESCRIPTION =====
+\outputDesc{}
+
+\begin{itemize}
+    \item Gồm $q$ dòng, mỗi dòng trả lời kết quả của truy vấn tương ứng.
+\end{itemize}
+
+% ===== SUBTASKS =====
+% \noindent{\sffamily \textbf{Subtasks}}
+% \begin{itemize}
+%     \item \textbf{Subtask ?} ($?\%$ số điểm): Không có ràng buộc gì thêm.
+% \end{itemize}
+
+\vspace{0.5em}
+
+\ExampleBox{1}{
+6 8\\
+-5 3 -2 7 -2 4\\
+1 1 6 3\\
+2 1 6 -2\\
+3 1 6 0\\
+4 1 6 -2\\
+1 2 5 5\\
+2 2 5 10\\
+3 2 5 3\\
+4 3 6 7
+}{
+3\\
+3\\
+-9\\
+2\\
+NO\\
+4\\
+-1\\
+1
+}{}

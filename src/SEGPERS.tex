@@ -1,0 +1,63 @@
+\def\ProblemCode{SEGPERS}
+\def\ProblemTitle{Persistent Segment Tree}
+\makeproblem{\ProblemCode}{\ProblemTitle}
+
+Cho dãy số nguyên $a_1, a_2, \dots, a_n$.
+Ban đầu, tồn tại phiên bản $1$ của dãy, chính là dãy ban đầu.
+Mỗi truy vấn cập nhật sẽ tạo ra một phiên bản mới của dãy.
+
+Xử lý $q$ truy vấn thuộc một trong các dạng sau:
+
+\begin{itemize}
+    \item \boxed{1\ v\ i\ k}:
+    Từ phiên bản $v$, tạo ra một phiên bản mới bằng cách tăng phần tử thứ $i$ lên $k$ đơn vị $(|k| \le 10^{9})$.
+    \item \boxed{2\ v\ l\ r}:
+    Tính tổng các phần tử trong đoạn $[l, r]$ của phiên bản $v$.
+    \item \boxed{3\ v\ l\ r}:
+    Tìm giá trị nhỏ nhất trong đoạn $[l, r]$ của phiên bản $v$.
+    \item \boxed{4\ v\ l\ r}:
+    Tìm giá trị lớn nhất trong đoạn $[l, r]$ của phiên bản $v$.
+\end{itemize}
+
+Các phiên bản được đánh số liên tiếp từ $1$ theo thứ tự xuất hiện
+(các truy vấn loại \texttt{1}).
+
+% ===== INPUT DESCRIPTION =====
+\inputDesc{}
+
+\begin{itemize}
+    \item Dòng đầu tiên gồm hai số nguyên dương $n, q\ (1 \le n, q \le 10^{5})$.
+    \item Dòng thứ hai gồm $n$ số nguyên $a_1, a_2, \dots, a_n\ (|a_i| \le 10^{9})$.
+    \item $q$ dòng tiếp theo, mỗi dòng chứa một truy vấn như mô tả ở trên.
+\end{itemize}
+
+% ===== OUTPUT DESCRIPTION =====
+\outputDesc{}
+
+\begin{itemize}
+    \item Với mỗi truy vấn loại 2, 3 hoặc 4, in ra một dòng chứa kết quả tương ứng.
+\end{itemize}
+
+\vspace{0.5em}
+
+\ExampleBox{2}{
+6 9\\
+2 -5 4 1 7 -3\\
+2 1 1 6\\
+1 1 2 3\\
+2 2 1 6\\
+3 2 3 6\\
+4 2 1 4\\
+1 2 4 -2\\
+2 3 4 6\\
+3 1 1 6\\
+4 3 1 6
+}{
+6\\
+9\\
+-3\\
+4\\
+3\\
+-5\\
+7
+}{}

@@ -1,0 +1,55 @@
+\def\ProblemCode{WAVELET2}
+\def\ProblemTitle{Wavelet Tree 2}
+\makeproblem{\ProblemCode}{\ProblemTitle}
+
+Cho một mảng $a$ gồm $n$ số nguyên.
+
+Hãy xử lý $q$ truy vấn, mỗi truy vấn có dạng:
+
+\begin{itemize}
+    \item \boxed{l\ r\ k}:
+    Tìm số nguyên $x$ nhỏ nhất sao cho $x$ xuất hiện trong đoạn $[l, r]$
+    \textbf{nhiều hơn} $\dfrac{r-l+1}{k}$ lần.
+    Nếu không tồn tại số như vậy, in ra $-1$.
+\end{itemize}
+
+% ===== INPUT DESCRIPTION =====
+\inputDesc{}
+
+\begin{itemize}
+    \item Dòng đầu gồm hai số nguyên $n, q\ (1 \le n, q \le 3 \times 10^{5})$.
+    \item Dòng thứ hai gồm $n$ số nguyên $a_1, a_2, \dots, a_n\ (1 \le a_i \le n)$.
+    \item $q$ dòng tiếp theo, mỗi dòng gồm ba số nguyên
+    $l, r, k\ (1 \le l \le r \le n,\ 2 \le k \le 5)$.
+\end{itemize}
+
+% ===== OUTPUT DESCRIPTION =====
+\outputDesc{}
+
+\begin{itemize}
+    \item Với mỗi truy vấn, in ra một dòng chứa đáp án tương ứng.
+\end{itemize}
+
+\vspace{0.5em}
+
+\ExampleBox{1}{
+4 2\\
+1 1 2 2\\
+1 3 2\\
+1 4 2
+}{
+1\\
+-1
+}{}
+
+\ExampleBox{2}{
+5 3\\
+1 2 1 3 2\\
+2 5 3\\
+1 2 3\\
+5 5 2
+}{
+2\\
+1\\
+2
+}{}
